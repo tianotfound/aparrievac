@@ -4,10 +4,17 @@
 {{-- =========================================================================================================================== --}}
 @can('superadmin')
     <div class="container">
-        <div class="alert alert-success text-center" role="alert">
+        <div id="flashAlert" class="alert alert-success text-center" role="alert">
             {{ __('Welcome, Super Admin! You have full access to the system.') }}
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#flashAlert').delay(3000).fadeOut('slow');
+        });
+    </script>
 
     <div class="container">
         <div class="row">
@@ -94,6 +101,29 @@
         </div>
     </div>
 @endcan
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <ul class="nav flex-column bg-light p-3">
+                <li class="nav-item">test 1</li>
+                <li class="nav-item">test 1</li>
+                <li class="nav-item">test 1</li>
+                <li class="nav-item">test 1</li>
+                <li class="nav-item">test 1</li>
+                <li class="nav-item">test 1</li>
+                <li class="nav-item">test 1</li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <div id="map" style="height: 500px; width: 100%;"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="card"></div>
+        </div>
+    </div>
+</div>
+
 {{-- =========================================================================================================================== --}}
 @can('admin')
     <div class="container">

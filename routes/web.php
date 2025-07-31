@@ -35,3 +35,6 @@ Route::group(['middleware' => ['role:super-admin|admin']], function() {
     Route::get('users/{userId}/delete', [App\Http\Controllers\UserController::class, 'destroy']);
 
 });
+
+
+Route::resource('evacsites', App\Http\Controllers\EvacsiteController::class);

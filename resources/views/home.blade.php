@@ -48,7 +48,7 @@
                         </p>
                         
                         <div class="mt-auto">
-                            <a href="" class="btn btn-outline-success">
+                            <a href="{{ route('evacsites.index') }}" class="btn btn-outline-success">
                                 <i class="fas fa-map-location-dot me-2"></i>{{ __('View Sites') }}
                             </a>
                         </div>

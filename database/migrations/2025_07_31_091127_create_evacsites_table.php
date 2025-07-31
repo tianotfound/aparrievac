@@ -13,6 +13,18 @@ return new class extends Migration
     {
         Schema::create('evacsites', function (Blueprint $table) {
             $table->id();
+            $table->string('sitename');
+            $table->string('type');
+            $table->integer('capacity');
+            $table->decimal('lat', 10, 8);
+            $table->decimal('lang', 11, 8);
+            $table->text('address');
+            $table->string('room')->nullable();
+            $table->string('powerstatus');
+            $table->string('waterstatus');
+            $table->string('status');
+            $table->string('head');
+            $table->string('contact');
             $table->timestamps();
         });
     }

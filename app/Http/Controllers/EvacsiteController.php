@@ -10,8 +10,9 @@ class EvacsiteController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {   
-        return view('evacsite.index');
+    {      
+        $evacsites = \App\Models\Evacsite::all();
+        return view('evacsite.index', compact('evacsites'));
     }
 
     /**

@@ -35,14 +35,25 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f0f0;
-            color: #333;
+            color: #131212;
+        }
+
+        .nav-link {
+            color: #131212;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: blue;
+            font-weight: bolder;
         }
     </style>
 
 </head>
 <body>
     <div>
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-sm navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img src="{{ asset('logo/aparri.png') }}" alt="" width="40" height="40"> {{ config('app.name') }}
@@ -55,7 +66,16 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link hover-primary active" href="{{ url('home') }}">Dashboard</a>
+                            <a class="nav-link active" href="{{ url('home') }}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('evacsites.index') }}">Evacuation Sites</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('home') }}">Evacuees Data</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('users.index') }}">System Management</a>
                         </li>
                     </ul>
 
@@ -76,15 +96,11 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle badge bg-warning" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    <i class="fa-solid fa-helmet-safety"></i>  {{ Auth::user()->name }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('users.index') }}"  >
-                                        {{ __('System Management') }}
-                                    </a>
-                                    <hr>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

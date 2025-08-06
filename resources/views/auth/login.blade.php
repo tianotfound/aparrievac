@@ -1,7 +1,7 @@
 @extends('layouts.auth')
 
 @section('content')
-<div class="container d-flex justify-content-center align-items-center vh-100 overflow-hidden">
+<div class="container d-flex justify-content-center align-items-center">
 <div class="col-md-4">
     <div class="card shadow-sm">
         <!-- Logo Header -->
@@ -60,7 +60,7 @@
 
                 <!-- Login Button -->
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-primary fw-semibold">
+                    <button type="submit" class="btn btn-primary btn-sm fw-semibold">
                         <i class="fas fa-sign-in-alt me-1"></i> Login
                     </button>
                 </div>

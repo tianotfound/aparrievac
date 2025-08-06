@@ -1,7 +1,6 @@
-document.addEventListener("DOMContentLoaded", function() {
-    var map = L.map('map').setView([18.354916650824126, 121.64484737387285], 14); // Aparri, Cagayan
+document.addEventListener("DOMContentLoaded", function () {
+    var map = L.map('map').setView([18.343612100434054, 121.63245382436055], 13);
 
-    // Tile layers
     var layers = {
         "OpenStreetMap": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -17,41 +16,94 @@ document.addEventListener("DOMContentLoaded", function() {
         })
     };
 
-    // Add default layer
     layers["OpenStreetMap"].addTo(map);
-
-    // Add layer control
     L.control.layers(layers).addTo(map);
 
-    // List of schools in Aparri, Cagayan (sample coordinates)
     var schools = [
         { name: "Aparri East Central School", lat: 18.3568573726796, lng: 121.64268494549377 },
-        { name: "Aparri West Central School", lat: 18.310047707575116, lng: 121.60567296125184 },
-        { name: "Aparri East National High School", lat: 18.353178238079497, lng: 121.65537645972182 },
+        { name: "Aparri West Central School", lat: 18.310047707575116, lng: 121.60567296125184 }, // RED
+        { name: "Aparri East National High School", lat: 18.353178238079497, lng: 121.65537645972182 }, // GREEN
         { name: "Cagayan State University - Aparri Campus", lat: 18.35201962875998, lng: 121.6501726184279 },
         { name: "San Antonio Elementary School", lat: 18.35914214759947, lng: 121.64072247329793 },
         { name: "Maura Elementary School", lat: 18.354779197128146, lng: 121.64831714050375 },
     ];
 
-    // Create dots (circles) instead of markers
-    schools.forEach(function(school, idx) {
-        let color = 'blue'; // default color
-        if (idx === 1) color = 'red';
-        else if (idx === 2) color = 'green';
+    var circles = [];
 
-        L.circle([school.lat, school.lng], {
-            color: color,
+    schools.forEach(function (school, idx) {
+        let color = '#0d6efd'; // Bootstrap Primary
+        if (idx === 1) color = '#dc3545'; // Red
+        else if (idx === 2) color = '#198754'; // Green
+
+        let isRed = color === '#dc3545';
+
+        let baseRadius = isRed ? 120 : 100;
+        let rippleStart = isRed ? 250 : 100;
+        let rippleMax = isRed ? 600 : 200;
+
+        let baseCircle = L.circle([school.lat, school.lng], {
+            color: '#ffffff',
+            weight: 2,
             fillColor: color,
             fillOpacity: 0.8,
-            radius: 100 // radius in meters
-        }).addTo(map)
-        .bindPopup(school.name);
+            radius: baseRadius,
+            className: 'circle-shadow'
+        }).addTo(map).bindPopup(school.name);
+
+        let ripple = L.circle([school.lat, school.lng], {
+            color: '#ffffff',
+            weight: 1,
+            fillColor: color,
+            fillOpacity: 0.2,
+            radius: rippleStart,
+            interactive: false,
+            className: 'circle-shadow'
+        }).addTo(map);
+
+        circles.push({
+            base: baseCircle,
+            ripple: ripple,
+            isRed: isRed,
+            rippleStart: rippleStart,
+            rippleMax: rippleMax
+        });
     });
 
-    // Function to set terrain
-    window.setTerrain = function(type) {
+    function animateCircle(c) {
+        let currentOpacity = c.base.options.fillOpacity;
+        c.base.setStyle({ fillOpacity: currentOpacity === 0.8 ? 0.2 : 0.8 });
+
+        let steps = 20;
+        let step = 0;
+        let radius = c.rippleStart;
+
+        let rippleInterval = setInterval(function () {
+            radius += (c.rippleMax - c.rippleStart) / steps;
+            let newOpacity = 0.2 * (1 - step / steps);
+            c.ripple.setStyle({
+                radius: radius,
+                fillOpacity: newOpacity,
+                opacity: newOpacity
+            });
+            step++;
+
+            if (step >= steps) {
+                c.ripple.setStyle({ radius: c.rippleStart, fillOpacity: 0.2, opacity: 0.2 });
+                clearInterval(rippleInterval);
+            }
+        }, 30);
+    }
+
+    circles.forEach(function (c) {
+        let intervalTime = c.isRed ? 600 : 1000;
+        setInterval(function () {
+            animateCircle(c);
+        }, intervalTime);
+    });
+
+    window.setTerrain = function (type) {
         if (layers[type]) {
-            map.eachLayer(function(layer) {
+            map.eachLayer(function (layer) {
                 if (layer instanceof L.TileLayer) {
                     map.removeLayer(layer);
                 }

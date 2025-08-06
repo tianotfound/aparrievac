@@ -29,12 +29,12 @@
     <style>
         body{
             font-family: 'Inter', sans-serif;
-            background-color: #f0f0f0;
-            background-image: linear-gradient(rgba(255, 0, 0, 0.5)), url('https://scontent.fcrk1-3.fna.fbcdn.net/v/t39.30808-6/514834420_1238737011366605_5573957893768264569_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeFehKWi1uBHdXHHZXDSoqEJqTURjH6FZz6pNRGMfoVnPttD101snubL7B83S9vd6MZLUiWkhg7IYS1_bM3KYeqm&_nc_ohc=OYKqCbLVTqAQ7kNvwG--5fi&_nc_oc=Adn67MwAqXt981c2tWHGJavHt_PcFBRshYSZpFs0Gocj5NBsYR5MMdlNhY29LbQpdPY&_nc_zt=23&_nc_ht=scontent.fcrk1-3.fna&_nc_gid=xoq6mzZGLzInf28XrDw6MA&oh=00_AfSOChrBABVTJl70yo6JhNCg00u5SzUlP-oTh945YO6tgw&oe=68860E90');
+            background-image: linear-gradient(rgba(255, 0, 0, 0.5), rgba(255, 0, 0, 0.5)), 
+                            url('https://media.defense.gov/2014/Oct/01/2000997687/-1/-1/0/140929-F-PB513-025.JPG');
+            background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
-            min-height: 100vh;
+            background-attachment: fixed; 
             color: #333;
         }
     </style>

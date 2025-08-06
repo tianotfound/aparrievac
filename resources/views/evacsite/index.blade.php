@@ -27,202 +27,123 @@
     </div>
     @endif
 
-    <!-- Summary Panels -->
-    <div class="row px-3">
-        <div class="col-md-4 mb-3">
-            <div class="card bg-success text-white">
-                <div class="card-body text-center">
-                    <i class="fas fa-check-circle fa-2x mb-2"></i>
-                    <h6>Operational</h6>
-                    <h4>{{ $evacsites->where('status', 'operational')->count() }}</h4>
+    <div class="container mb-3">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-4 mb-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h6><i class="fas fa-check-circle"></i> Operational
+                            <span class="float-end">{{ $evacsites->where('status', 'operational')->count() }}</span>
+                        </h6>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            <div class="card bg-warning text-dark">
-                <div class="card-body text-center">
-                    <i class="fas fa-tools fa-2x mb-2"></i>
-                    <h6>Maintenance</h6>
-                    <h4>{{ $evacsites->where('status', 'under_maintenance')->count() }}</h4>
+            <div class="col-md-4 mb-3">
+                <div class="card bg-warning text-black">
+                    <div class="card-body">
+                        <h6><i class="fas fa-tools"></i> Under Maintenance
+                            <span class="float-end">{{ $evacsites->where('status', 'under_maintenance')->count() }}</span>
+                        </h6>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            <div class="card bg-danger text-white">
-                <div class="card-body text-center">
-                    <i class="fas fa-ban fa-2x mb-2"></i>
-                    <h6>Closed</h6>
-                    <h4>{{ $evacsites->where('status', 'closed')->count() }}</h4>
+            <div class="col-md-4 mb-3">
+                <div class="card bg-danger text-white">
+                    <div class="card-body">
+                        <h6><i class="fas fa-ban"></i> Closed
+                            <span class="float-end">{{ $evacsites->where('status', 'closed')->count() }}</span>
+                        </h6>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Panels: Weather, Needs, Occupancy -->
-    <div class="row px-3">
-        <div class="col-md-4 mb-3">
-            <div class="card text-bg-danger h-100">
-                <div class="card-body">
-                    <h6 class="card-title"><i class="fas fa-cloud-bolt me-2"></i>Weather Alert</h6>
-                    <p class="mb-0">⚠️ Tropical storm warning in Aparri, Cagayan. Monitor updates from PAGASA.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            <div class="card text-bg-warning h-100">
-                <div class="card-body">
-                    <h6 class="card-title"><i class="fas fa-triangle-exclamation me-2"></i>Urgent Needs</h6>
-                    <ul class="list-unstyled">
-                        @foreach($evacsites as $site)
-                            @if($site->needs)
-                            <li class="mb-2">
-                                <strong>{{ $site->sitename }}:</strong> {{ $site->needs }}
-                            </li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            <div class="card text-bg-info h-100">
-                <div class="card-body">
-                    <h6 class="card-title"><i class="fas fa-users me-2"></i>Occupancy</h6>
-                    @foreach($evacsites as $site)
-                        @if($site->capacity > 0)
-                        <div class="mb-2">
-                            <small><strong>{{ $site->sitename }}</strong></small>
-                            <div class="progress" style="height: 20px;">
-                                <div class="progress-bar bg-{{ ($site->occupants / $site->capacity) > 0.8 ? 'danger' : 'success' }}"
-                                     style="width: {{ ($site->occupants / $site->capacity) * 100 }}%;">
-                                    {{ $site->occupants ?? 0 }} / {{ $site->capacity }}
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            @foreach ($evacsites as $item)
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="mb-1">
+                                <i class="fas fa-map-marker-alt text-danger"></i> {{ $item->sitename }} 
+                                <span class="float-end">
+                                    @php
+                                        $statusClass = [
+                                            'operational' => 'success',
+                                            'under_maintenance' => 'warning',
+                                            'closed' => 'danger'
+                                        ][$item->status] ?? 'secondary';
+                                    @endphp
+                                    <span class="badge bg-{{ $statusClass }}">
+                                        {{ Str::title(str_replace('_', ' ', $item->status)) }}
+                                    </span>
+                                </span>
+                            </h6>
+                            <small class="text-muted ">{{ $item->address }}</small> |
+                            <small class="text-muted ">{{ $item->type }}</small>
+                            <hr>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <small>Head: <strong>{{ $item->head }}</strong></small>
+                                </div>
+                                <div class="col-md-6">
+                                    <small>Contact: <strong>{{ $item->contact }}</strong></small>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="container">
+                                <div class="row justify-content-between align-items-center text-center">
+                                    <div class="col-md-3">
+                                        <small class="text-muted">Capacity</small>
+                                        <h4><strong>{{ ($item->capacity) }}</strong></h4>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <small class="text-muted">No. of Rooms</small>
+                                        <h4><strong>{{ ($item->room) }}</strong></h4>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <small class="text-muted">Power Status</small>
+                                        <h5>
+                                            <span class="badge bg-{{ $item->powerstatus === 'available' ? 'success' : 'danger' }}">
+                                                <i class="fas fa-bolt me-1"></i>{{ $item->powerstatus }}
+                                            </span>
+                                        </h5>
+                                    </div> 
+                                    <div class="col-md-3">
+                                        <small class="text-muted">Water Status</small>
+                                        <h5>
+                                            <span class="badge bg-{{ $item->waterstatus === 'available' ? 'success' : 'danger' }}">
+                                                <i class="fas fa-tint me-1"></i>{{ $item->waterstatus }}
+                                            </span>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            @php
+                                $capacity = $item->capacity ?? 1; // prevent division by zero
+                                $occupants = $item->occupants ?? 0;
+                                $occupancy = min(100, round(($occupants / $capacity) * 100)); // capped at 100%
+                                
+                                $barColor = 'bg-success';
+                                if ($occupancy >= 80) $barColor = 'bg-danger';
+                                elseif ($occupancy >= 50) $barColor = 'bg-warning';
+                            @endphp
+                            <div class="card-footer bg-light text-center">
+                                <small class="text-muted d-block mb-1">Occupancy: {{ $occupants }} / {{ $capacity }}</small>
+                                
+                                <div class="progress" style="height: 15px;">
+                                    <div class="progress-bar {{ $barColor }}" role="progressbar"
+                                        style="width: {{ $occupancy }}%;" aria-valuenow="{{ $occupancy }}" aria-valuemin="0" aria-valuemax="100">
+                                        {{ $occupancy }}%
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        @endif
-                    @endforeach
+                    </div>
                 </div>
-            </div>
+            @endforeach
         </div>
     </div>
-
-    <!-- Main Tables -->
-    <div class="row px-3">
-        <div class="col-md-5 mb-3">
-            <table id="myTable" class="table table-bordered table-sm">
-                <thead class="table-light">
-                    <tr>
-                        <th>Evacuation Sites</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($evacsites as $site)
-                    <tr>
-                        <td>{{ $site->sitename }}</td>
-                        <td>
-                            <div class="gap-1">
-                                <a href="{{ route('evacsites.show', $site->id) }}" class="btn btn-sm btn-info" title="View">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a href="{{ route('evacsites.edit', $site->id) }}" class="btn btn-sm btn-warning" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <form action="{{ route('evacsites.destroy', $site->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" title="Delete" onclick="return confirm('Are you sure?')">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-
-        <div class="col-md-7">
-            <div class="table-responsive">
-                <table class="table table-hover table-sm">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Site Name</th>
-                            <th>Type</th>
-                            <th>Capacity</th>
-                            <th>Location</th>
-                            <th>Utilities</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($evacsites as $site)
-                        <tr>
-                            <td>
-                                <strong>{{ $site->sitename }}</strong><br>
-                                <small class="text-muted">Head: {{ $site->head }}</small><br>
-                                <small class="text-muted">Contact: {{ $site->contact }}</small><br>
-                                @php
-                                    $statusClass = [
-                                        'operational' => 'success',
-                                        'under_maintenance' => 'warning',
-                                        'closed' => 'danger'
-                                    ][$site->status] ?? 'secondary';
-                                @endphp
-                                <span class="badge bg-{{ $statusClass }}">
-                                    {{ Str::title(str_replace('_', ' ', $site->status)) }}
-                                </span>
-                            </td>
-                            <td>{{ $site->type }}
-                                @if($site->room)
-                                <br><small>No. of Rooms: {{ $site->room }}</small>
-                                @endif
-                            </td>
-                            <td>{{ number_format($site->capacity) }}</td>
-                            <td>
-                                <i class="fas fa-map-marker-alt text-danger me-1"></i>
-                                <small>{{ Str::limit($site->address, 40) }}</small>
-                            </td>
-                            <td>
-                                <span class="badge bg-{{ $site->powerstatus === 'available' ? 'success' : 'danger' }}">
-                                    <i class="fas fa-bolt me-1"></i>{{ $site->powerstatus }}
-                                </span><br>
-                                <span class="badge bg-{{ $site->waterstatus === 'available' ? 'success' : 'danger' }}">
-                                    <i class="fas fa-tint me-1"></i>{{ $site->waterstatus }}
-                                </span>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Location Modal -->
-<div class="modal fade" id="locationModal" tabindex="-1" aria-labelledby="locationModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Site Location</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div id="map" style="height: 400px; width: 100%;"></div>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection
-
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/2.2.1/js/dataTables.bootstrap5.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.bootstrap5.css" />
-
-<script>
-    $(document).ready(function () {
-        $('#myTable').DataTable();
-    });
-</script>

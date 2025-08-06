@@ -19,15 +19,43 @@
         });
     </script>
 
-    <div class="container-fluid">
+    <div class="container">
         <div class="row justify-content-center align-item center">
             <div class="col-md-9 mb-3">
                 <div class="map">
                     <div id="map" style="height: 650px; width: 100%;"></div>
                 </div>
             </div>
+            
             <div class="col-md-3 mb-4">
-                <div class="card shadow-sm border-0 h-100">
+                <div class="container mb-3">
+                    <div class="row text-center">
+                        <div class="col-md-6">
+                            <span id="current-date"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <span id="current-time"></span>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    // Function to update date and time
+                    function updateDateTime() {
+                        const now = new Date();
+                        
+                        // Format date (e.g., "July 23, 2023")
+                        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                        document.getElementById('current-date').textContent = now.toLocaleDateString(undefined, options);
+                        
+                        // Format time (e.g., "11:45:23 AM")
+                        document.getElementById('current-time').textContent = now.toLocaleTimeString();
+                    }
+
+                    // Update immediately and then every second
+                    updateDateTime();
+                    setInterval(updateDateTime, 1000);
+                </script>
+                <div class="card shadow-sm border-0 h-auto">
                     <div class="card-body">
                         <h5 class="card-title text-primary fw-bold d-flex align-items-center mb-3">
                             <i class="fas fa-tachometer-alt me-2"></i> {{ __('Overview') }}

@@ -54,10 +54,10 @@
                                                     <label for="type" class="form-label">Type</label>
                                                     <select class="form-select" id="type" name="type" required>
                                                         <option value="" disabled {{ old('type') ? '' : 'selected' }}>Select type</option>
-                                                        <option value="School" {{ old('type') == 'school' ? 'selected' : '' }}>School</option>
-                                                        <option value="Gymnasium" {{ old('type') == 'gymnasium' ? 'selected' : '' }}>Gymnasium</option>
-                                                        <option value="Community_center" {{ old('type') == 'community_center' ? 'selected' : '' }}>Community Center</option>
-                                                        <option value="Other" {{ old('type') == 'other' ? 'selected' : '' }}>Other</option>
+                                                        <option value="school" {{ old('type') == 'school' ? 'selected' : '' }}>School</option>
+                                                        <option value="gymnasium" {{ old('type') == 'gymnasium' ? 'selected' : '' }}>Gymnasium</option>
+                                                        <option value="community_center" {{ old('type') == 'community_center' ? 'selected' : '' }}>Community Center</option>
+                                                        <option value="other" {{ old('type') == 'other' ? 'selected' : '' }}>Other</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-6 mb-3">

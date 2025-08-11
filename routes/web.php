@@ -38,6 +38,8 @@ Route::group(['middleware' => ['role:super-admin|admin']], function() {
 
 // Management View
 Route::resource('evacsites', App\Http\Controllers\EvacsiteController::class);
+Route::get('evacmanage', [App\Http\Controllers\EvacsiteController::class, 'manage'])->name('evacsites.manage');
+Route::get('/evac-sites', [EvacSiteController::class, 'getEvacSites'])->name('home');
 
 // Public View
 Route::resource('evacuate', App\Http\Controllers\PublicEvacuateController::class);

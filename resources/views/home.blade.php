@@ -30,11 +30,9 @@
             <div class="col-md-3 mb-4">
                 <div class="container mb-3">
                     <div class="row text-center">
-                        <div class="col-md-6">
-                            <span id="current-date"></span>
-                        </div>
-                        <div class="col-md-6">
-                            <span id="current-time"></span>
+                        <div class="col-12">
+                            <div id="current-time" class="display-6 mb-1" style="font-weight: 600;"></div>
+                            <div id="current-date" class="h6 text-muted"></div>
                         </div>
                     </div>
                 </div>
@@ -83,15 +81,33 @@
                                     {{ \App\Models\Evacsite::count() }}
                                 </span>
                             </li>
+
                             <hr class="my-1">
+
                             <li class="d-flex justify-content-between align-items-center py-2">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-users text-info me-2"></i>
-                                    {{ __('Evacuees') }}
+                                <div class="d-flex flex-column">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-users text-info me-2"></i>
+                                        {{ __('Evacuees') }}
+                                    </div>
+
+                                    <small class="ms-4 text-muted">
+                                        @foreach ($evacsites as $item)
+                                            <i class="fas fa-circle text-secondary me-1"></i> 
+                                        @php
+                                            $words = explode(' ', $item->sitename);
+                                            $acronym = '';
+                                            foreach($words as $word) {
+                                                if (ctype_upper(substr($word, 0, 1))) {  // Check if first letter is uppercase
+                                                    $acronym .= strtoupper(substr($word, 0, 1));
+                                                }
+                                            }
+                                            echo $acronym;
+                                        @endphp
+                                        <br>
+                                        @endforeach
+                                    </small>
                                 </div>
-                                <span class="badge bg-success rounded-pill">
-                                    {{ \App\Models\Evacsite::count() }} {{-- Replace with correct model --}}
-                                </span>
                             </li>
                         </ul>
                     </div>
@@ -105,40 +121,55 @@
     <div class="container">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header bg-secondary text-white">
-                    <h5 class="mb-0">Evacuees Summary</h5>
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">7-Day Weather Forecast</h5>
+                        <button class="btn btn-sm btn-light" onclick="refreshWeather()">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
                 </div>
-                <div class="card-body">
-                    @if($evacsites->count() > 0)
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-sm">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Age</th>
-                                        <th>Gender</th>
-                                        <th>Evacuation Site</th>
-                                        <th>Date Registered</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($evacsites as $index => $evacuee)
-                                        <tr>
-                                            <td>{{ $index + 1 }}</td>
-                                            <td>{{ $evacuee->name }}</td>
-                                            <td>{{ $evacuee->age }}</td>
-                                            <td>{{ $evacuee->gender }}</td>
-                                            <td>{{ $evacuee->evacuation_site }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($evacuee->created_at)->format('M d, Y') }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                <div class="card-body" id="weather-container">
+                    @if(empty($weatherForecast))
+                        <div class="alert alert-danger">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-exclamation-circle fa-2x me-3"></i>
+                                <div>
+                                    <h5>Weather Data Unavailable</h5>
+                                    <p class="mb-0">We couldn't fetch weather data. Please:</p>
+                                    <ul class="mb-0">
+                                        <li>Check your internet connection</li>
+                                        <li>Verify the API key is set in .env</li>
+                                        <li>Try again later</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     @else
-                        <div class="text-center text-muted">
-                            No evacuees data available.
+                        <div class="row text-center">
+                            @foreach($weatherForecast as $forecast)
+                            <div class="col-md-2 col-4 mb-3">
+                                <div class="bg-light p-2 rounded h-100">
+                                    <h6 class="font-weight-bold">{{ \Carbon\Carbon::createFromTimestamp($forecast['dt'])->isoFormat('ddd') }}</h6>
+                                    <small>{{ \Carbon\Carbon::createFromTimestamp($forecast['dt'])->isoFormat('MMM D') }}</small>
+                                    <img src="https://openweathermap.org/img/wn/{{ $forecast['weather'][0]['icon'] }}@2x.png" 
+                                        alt="{{ $forecast['weather'][0]['description'] }}"
+                                        class="img-fluid my-1"
+                                        width="60"
+                                        height="60">
+                                    <div class="mt-1">
+                                        <span class="font-weight-bold">{{ round($forecast['temp']['day']) }}°C</span>
+                                        <small class="d-block text-muted">
+                                            H: {{ round($forecast['temp']['max']) }}° L: {{ round($forecast['temp']['min']) }}°
+                                        </small>
+                                    </div>
+                                    <small class="text-muted d-block">{{ ucfirst($forecast['weather'][0]['description']) }}</small>
+                                    <small class="text-info">
+                                        <i class="fas fa-tint"></i> {{ $forecast['humidity'] }}%
+                                    </small>
+                                </div>
+                            </div>
+                            @endforeach
                         </div>
                     @endif
                 </div>

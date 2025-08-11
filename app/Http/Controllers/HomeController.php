@@ -27,4 +27,9 @@ class HomeController extends Controller
         $evacsites = Evacsite::all();
         return view('home', compact('evacsites'));
     }
+
+    public function getEvacSites()
+    {
+        return EvacSite::select('name', 'latitude as lat', 'longitude as lang')->get();
+    }
 }

@@ -10,14 +10,22 @@
                 <h5 class="mb-0 text-gray-800">
                     <i class="fas fa-house-circle-exclamation me-2"></i>Evacuation Sites
                 </h5>
-                @can('add evacuation site')
-                <a href="{{ route('evacsites.create') }}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-plus me-2"></i>Add New Site
-                </a>
-                @endcan
+                <div class="d-flex ms-auto gap-2">
+                    @can('add evacuation site')
+                    <a href="{{ route('evacsites.create') }}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus me-2"></i> Add New Site
+                    </a>
+                    @endcan
+                    @can('manage evacuation site')
+                    <a href="{{ route('evacsites.manage') }}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-cogs me-2"></i> Manage Sites
+                    </a>
+                    @endcan
+                </div>
             </div>
         </div>
     </div>
+
 
     <!-- Flash Success -->
     @if(session('success'))
@@ -130,7 +138,7 @@
                                 if ($occupancy >= 80) $barColor = 'bg-danger';
                                 elseif ($occupancy >= 50) $barColor = 'bg-warning';
                             @endphp
-                            <div class="card-footer bg-light text-center">
+                            <div class="text-center">
                                 <small class="text-muted d-block mb-1">Occupancy: {{ $occupants }} / {{ $capacity }}</small>
                                 
                                 <div class="progress" style="height: 15px;">
@@ -141,6 +149,11 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="container mb-2">
+                            <a href="{{ route('evacsites.show', $item->id) }}" class="btn btn-primary btn-sm text-white d-flex text-decoration-none justify-content-center align-items-center">
+                                <i class="fas fa-info-circle me-1"></i> Details
+                            </a>
+                        </div>  
                     </div>
                 </div>
             @endforeach

@@ -16,7 +16,6 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
     }
-
     /**
      * Show the application dashboard.
      *
@@ -24,12 +23,8 @@ class HomeController extends Controller
      */
     public function index()
     {   
-        $evacsites = Evacsite::all();
+        $evacsites = Evacsite::select('sitename', 'lat', 'lang', 'status')->get();
         return view('home', compact('evacsites'));
     }
 
-    public function getEvacSites()
-    {
-        return EvacSite::select('name', 'latitude as lat', 'longitude as lang')->get();
-    }
 }

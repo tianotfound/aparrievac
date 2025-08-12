@@ -71,15 +71,36 @@ class EvacsiteController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $evacsites = Evacsite::findOrFail($id);
+        return view('evacsite.edit', compact('evacsites'));
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'sitename'     => 'required|string|max:255',
+            'address'      => 'required|string|max:500',
+            'type'         => 'required|string|in:school,gymnasium,community_center,other',
+            'status'       => 'required|string|in:operational,under_maintenance,closed',
+            'capacity'     => 'required|integer|min:1',
+            'room'         => 'required|integer|min:1',
+            'powerstatus'  => 'required|string|in:available,unavailable',
+            'waterstatus'  => 'required|string|in:available,unavailable',
+            'head'         => 'required|string|max:255',
+            'contact'      => 'required|string|max:20',
+            'lat'          => 'required|numeric|between:-90,90',
+            'lang'         => 'required|numeric|between:-180,180',
+        ]);
+
+        $evacSite = EvacSite::findOrFail($id);
+        $evacSite->update($validated);
+
+        return redirect()->route('evacsites.index')
+            ->with('success', 'Evacuation site updated successfully.');
     }
 
     /**
@@ -87,6 +108,10 @@ class EvacsiteController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $evacsites = Evacsite::findOrFail($id);
+        $evacsites->delete();
+
+        return redirect('')->with('status','Site Delete Successfully');
     }
+
 }

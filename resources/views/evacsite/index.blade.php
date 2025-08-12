@@ -17,7 +17,7 @@
                     </a>
                     @endcan
                     @can('manage evacuation site')
-                    <a href="{{ route('evacsites.manage') }}" class="btn btn-primary btn-sm">
+                    <a href="{{ route('manageevac.index') }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-cogs me-2"></i> Manage Sites
                     </a>
                     @endcan

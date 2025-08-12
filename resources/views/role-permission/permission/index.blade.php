@@ -2,10 +2,6 @@
 
 @section('content')
 
-    @if (session('status'))
-        <div class="alert alert-success">{{ session('status') }}</div>
-    @endif
-
     <div class="container mt-2">
         <div class="row">
             <!-- Left column for buttons card -->

@@ -27,7 +27,7 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="{{ asset('JS/leaflet.js') }}"></script>
+    {{-- <script src="{{ asset('JS/leaflet.js') }}"></script> --}}
 
 
     <!-- Style -->
@@ -119,8 +119,20 @@
         </nav>
 
         <main class="py-4">
-            @yield('content')
+            <div id="dynamic-content">
+                @yield('content')
+            </div>
         </main>
+        
     </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        setInterval(function () {
+            $("#dynamic-content").load(window.location.href + " #dynamic-content > *");
+        }, 10000);
+    });
+    </script>
+
 </body>
 </html>

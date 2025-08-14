@@ -20,7 +20,7 @@
     </script>
 
     <div class="container">
-        <div class="row justify-content-center align-item center">
+        <div class="row justify-content-center align-item center">  
             <div class="col-md-9 mb-3">
                 <div class="map">
                     <div id="map" style="height: 650px; width: 100%;"></div>

@@ -125,14 +125,6 @@
         </main>
         
     </div>
-
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        setInterval(function () {
-            $("#dynamic-content").load(window.location.href + " #dynamic-content > *");
-        }, 10000);
-    });
-    </script>
-
+    
 </body>
 </html>

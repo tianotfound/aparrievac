@@ -3,8 +3,39 @@
 @section('content')
 
         <div class="container-fluid">
-            <div id="map" style="height: 300px; width: 100%;"></div>
+            <div id="emergencyCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="{{ asset('carousel/1.jpg') }}" class="d-block w-100" alt="Rescue team in action" style="height: 300px; object-fit: cover;">
+                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
+                            <h5>Rescue Operations</h5>
+                            <p>Emergency response teams rescuing flood victims.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1604275688748-8a0732de69a5" class="d-block w-100" alt="Medical team" style="height: 300px; object-fit: cover;">
+                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
+                            <h5>Medical Assistance</h5>
+                            <p>Paramedics providing first aid to disaster survivors.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1610057095041-6b90f6f63d34" class="d-block w-100" alt="Firefighters" style="height: 300px; object-fit: cover;">
+                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
+                            <h5>Fire and Safety</h5>
+                            <p>Firefighters controlling fire during a calamity.</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#emergencyCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#emergencyCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
         </div>
+
 
         <header class="py-5">
             <div class="container">

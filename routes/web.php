@@ -44,3 +44,4 @@ Route::resource('manageevac', App\Http\Controllers\ManageEvacCtrl::class);
 
 // Public View
 Route::resource('evacuate', App\Http\Controllers\PublicEvacuateController::class);
+Route::resource('contact', App\Http\Controllers\ContactCtrl::class);

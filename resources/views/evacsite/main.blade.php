@@ -2,6 +2,28 @@
 
 @section('content')
 
+<div class="container mb-3">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 text-gray-800">
+                <i class="fas fa-house-circle-exclamation me-2"></i>Manage Sites
+            </h5>
+            <div class="d-flex ms-auto gap-2">
+                @can('add evacuation site')
+                <a href="{{ route('evacsites.create') }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus me-2"></i> Add New Site
+                </a>
+                @endcan
+                @can('manage evacuation site')
+                <a href="{{ route('manageevac.index') }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-cogs me-2"></i> Manage Sites
+                </a>
+                @endcan
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="card">
         <div class="card-body">
@@ -35,7 +57,7 @@
                                 <i class="fas fa-phone-alt me-1 text-secondary"></i><span class="fw-semibold">Contact:</span> {{ $site->contact }}
                             </div>
                         </td>
-                        <<td>
+                        <td>
                             @php
                                 $statusClasses = [
                                     'operational' => 'success',
@@ -109,3 +131,4 @@
         $('#myTable').DataTable();
     });
 </script>
+

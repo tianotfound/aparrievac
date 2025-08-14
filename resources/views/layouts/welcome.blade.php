@@ -35,7 +35,6 @@
 
     </head>
     <body>
-        <marquee class="bg-danger text-white" scrollamount="10" direction="left"><span class="text-warning">iBakwit</span> Municipal Government of Aparri © CAE</marquee>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
             <div class="container">
@@ -47,13 +46,20 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            <a class="nav-link active" aria-current="page" href="{{ url('/') }}">Home</a>
+                        </li>
+                       <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="evacuationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Evacuation Centers
+                            </a>
+                            <ul class="dropdown-menu bg-danger" aria-labelledby="evacuationDropdown">
+                                <li><a class="dropdown-item text-white" href="{{ route('evacuate.index') }}">All Centers</a></li>
+                                <li><hr class="dropdown-divider text-white"></li>
+                                <li><a class="dropdown-item text-white  " href="#">Reports</a></li>
+                            </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('evacuate.index')}}">Evacuation Centers</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Contact</a>
+                            <a class="nav-link" href="{{ route('contact.index') }}">Contact</a>
                         </li>
                     </ul>
                     <div class="d-flex gap-2">
@@ -62,6 +68,7 @@
                 </div>
             </div>
         </nav>
+        <marquee class="bg-danger text-white" scrollamount="10" direction="left"><span class="text-warning">iBakwit</span> Municipal Government of Aparri © CAE</marquee>
 
         <div class="">
             @yield('content')

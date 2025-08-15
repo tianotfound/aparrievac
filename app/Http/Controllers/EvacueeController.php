@@ -12,8 +12,9 @@ class EvacueeController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        return view('evacuee.index');
+    {   
+        $evacuees = Evacuee::with('evacsites')->get();
+        return view('evacuee.index', compact('evacuees'));
     }
 
     /**

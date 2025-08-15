@@ -347,7 +347,7 @@
                                             class="zoom-to-site text-decoration-none text-muted"
                                             data-lat="{{ $item->lat }}" 
                                             data-lng="{{ $item->lang }}" 
-                                            title="{{ $item->sitename }}">
+                                            title="{{ $item->sitename }} ({{ $item->evacuee_count }} evacuees)">
                                                 <i class="fas fa-circle text-primary me-1"></i> 
                                                 @php
                                                     $words = explode(' ', $item->sitename);
@@ -359,11 +359,11 @@
                                                     }
                                                     echo $acronym;
                                                 @endphp
+                                                <span class="badge bg-secondary ms-1">{{ $item->evacuee_count }}</span>
                                             </a>
                                             <br>
                                         @endforeach
                                     </small>
-
                                 </div>
                             </li>
                         </ul>

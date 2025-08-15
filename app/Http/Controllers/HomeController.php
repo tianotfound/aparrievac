@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Evacsite;    
+use App\Models\Evacsite;
+use App\Models\Evacuee;
 
 class HomeController extends Controller
 {
@@ -23,7 +24,9 @@ class HomeController extends Controller
      */
     public function index()
     {   
-        $evacsites = Evacsite::select('sitename', 'lat', 'lang', 'status')->get();
+        $evacsites = Evacsite::withCount('evacuees')
+                    ->select('id', 'sitename', 'lat', 'lang', 'status')
+                    ->get();
         return view('home', compact('evacsites'));
     }
 

@@ -72,7 +72,7 @@
                             <a class="nav-link" href="{{ route('evacsites.index') }}">Evacuation Sites</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('home') }}">Evacuees Data</a>
+                            <a class="nav-link" href="{{ route('evacuee.index') }}">Evacuees Data</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('users.index') }}">System Management</a>

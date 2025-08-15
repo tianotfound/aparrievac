@@ -27,4 +27,9 @@ class Evacsite extends Model
         'lat',
         'lang'
     ];
+
+    public function evacuees()
+    {
+        return $this->hasMany(Evacuee::class);
+    }
 }

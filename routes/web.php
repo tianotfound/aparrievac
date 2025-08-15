@@ -42,6 +42,9 @@ Route::get('evacmanage', [App\Http\Controllers\EvacsiteController::class, 'manag
 
 Route::resource('manageevac', App\Http\Controllers\ManageEvacCtrl::class);
 
+// Evacuee Data
+Route::resource('evacuee', App\Http\Controllers\EvacueeController::class);
+
 // Profile Edit
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('user.profile');
 Route::post('/profile', [App\Http\Controllers\ProfileController::class, 'store'])->name('user.profile.store');

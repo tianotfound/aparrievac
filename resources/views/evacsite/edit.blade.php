@@ -116,6 +116,34 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="card mb-3 border-warning">
+                                    <div class="card-header bg-warning text-dark">
+                                        <i class="fas fa-chart-bar me-2"></i>Food & Supplies
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="medicine_qty" class="form-label">Medicine Quantity</label>
+                                                <input type="number" class="form-control" id="medicine_qty" name="medicine_qty" value="{{ old('medicine_qty', $evacsite->medicine_qty) }}" min="1" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="toiletries_qty" class="form-label">Toiletries Quantity</label>
+                                                <input type="number" class="form-control" id="toiletries_qty" name="toiletries_qty" value="{{ old('toiletries_qty', $evacsite->toiletries_qty) }}" min="1" required>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="relief_goods_qty" class="form-label">Relief Goods Quantity</label>
+                                                <input type="number" class="form-control" id="relief_goods_qty" name="relief_goods_qty" value="{{ old('relief_goods_qty', $evacsite->relief_goods_qty) }}" min="1" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="beddings_qty" class="form-label">Beddings Quantity</label>
+                                                <input type="number" class="form-control" id="beddings_qty" name="beddings_qty" value="{{ old('beddings_qty', $evacsite->beddings_qty) }}" min="1" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             
                             <!-- Contact Information -->

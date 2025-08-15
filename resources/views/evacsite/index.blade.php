@@ -11,11 +11,6 @@
                     <i class="fas fa-house-circle-exclamation me-2"></i>Evacuation Sites
                 </h5>
                 <div class="d-flex ms-auto gap-2">
-                    @can('add evacuation site')
-                    <a href="{{ route('evacsites.create') }}" class="btn btn-primary btn-sm">
-                        <i class="fas fa-plus me-2"></i> Add New Site
-                    </a>
-                    @endcan
                     @can('manage evacuation site')
                     <a href="{{ route('manageevac.index') }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-cogs me-2"></i> Manage Sites
@@ -123,6 +118,50 @@
                                         <h5>
                                             <span class="badge bg-{{ $item->waterstatus === 'available' ? 'success' : 'danger' }}">
                                                 <i class="fas fa-tint me-1"></i>{{ $item->waterstatus }}
+                                            </span>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container mt-3">
+                                <div class="row text-center">
+                                    <div class="col-md-3">
+                                        <small class="text-muted">
+                                            <i class="fas fa-briefcase-medical text-danger me-1"></i> Medicine
+                                        </small>
+                                        <h5>
+                                            <span class="badge {{ $item->medicine_qty < 10 ? 'bg-danger' : 'bg-primary' }}">
+                                                {{ $item->medicine_qty }}
+                                            </span>
+                                        </h5>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <small class="text-muted">
+                                            <i class="fas fa-soap text-primary me-1"></i> Toiletries
+                                        </small>
+                                        <h5>
+                                            <span class="badge {{ $item->toiletries_qty < 10 ? 'bg-danger' : 'bg-primary' }}">
+                                                {{ $item->toiletries_qty }}
+                                            </span>
+                                        </h5>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <small class="text-muted">
+                                            <i class="fas fa-box-open text-warning me-1"></i> Relief Goods
+                                        </small>
+                                        <h5>
+                                            <span class="badge {{ $item->relief_goods_qty < 10 ? 'bg-danger' : 'bg-primary' }}">
+                                                {{ $item->relief_goods_qty }}
+                                            </span>
+                                        </h5>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <small class="text-muted">
+                                            <i class="fas fa-bed text-success me-1"></i> Beddings
+                                        </small>
+                                        <h5>
+                                            <span class="badge {{ $item->beddings_qty < 10 ? 'bg-danger' : 'bg-primary' }}">
+                                                {{ $item->beddings_qty }}
                                             </span>
                                         </h5>
                                     </div>

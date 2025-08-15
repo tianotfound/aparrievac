@@ -20,6 +20,10 @@ class Evacsite extends Model
         'waterstatus',
         'head',
         'contact',
+        'medicine_qty',
+        'toiletries_qty',
+        'relief_goods_qty',
+        'beddings_qty',
         'lat',
         'lang'
     ];

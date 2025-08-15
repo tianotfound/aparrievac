@@ -10,8 +10,9 @@ class PublicEvacuateController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        return view('publicview.evacuate');
+    {   
+        $evacsites = \App\Models\Evacsite::all();
+        return view('publicview.evacuate', compact('evacsites'));
     }
 
     /**

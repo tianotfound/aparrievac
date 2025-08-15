@@ -14,11 +14,6 @@
                     <i class="fas fa-plus me-2"></i> Add New Site
                 </a>
                 @endcan
-                @can('manage evacuation site')
-                <a href="{{ route('manageevac.index') }}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-cogs me-2"></i> Manage Sites
-                </a>
-                @endcan
             </div>
         </div>
     </div>
@@ -82,19 +77,41 @@
                             <small class="text-muted d-block">Rooms</small>
                         </td>
                         <td class="text-capitalize">
+                            {{-- Water Status --}}
                             <span class="badge 
-                                @if($site->waterstatus == 'available') bg-warning
+                                @if($site->waterstatus == 'available') bg-success
                                 @elseif($site->waterstatus == 'unavailable') bg-danger
                                 @else bg-warning
                                 @endif mb-1 mt-1">
                                 <i class="fas fa-tint me-1"></i> {{ $site->waterstatus }}
                             </span><br>
+
+                            {{-- Power Status --}}
                             <span class="badge 
-                                @if($site->powerstatus == 'available') bg-warning
+                                @if($site->powerstatus == 'available') bg-success
                                 @elseif($site->powerstatus == 'unavailable') bg-danger
                                 @else bg-warning
                                 @endif mb-1 mt-1">
                                 <i class="fas fa-bolt me-1"></i> {{ $site->powerstatus }}
+                            </span>
+
+                            <hr class="my-2">
+
+                            {{-- Supplies --}}
+                            <span class="badge {{ $site->medicine_qty < 10 ? 'bg-danger' : 'bg-primary' }} text-white mb-1">
+                                <i class="fas fa-briefcase-medical me-1"></i> {{ $site->medicine_qty }} Meds
+                            </span><br>
+
+                            <span class="badge {{ $site->toiletries_qty < 10 ? 'bg-danger' : 'bg-primary' }} text-white mb-1">
+                                <i class="fas fa-soap me-1"></i> {{ $site->toiletries_qty }} Toiletries
+                            </span><br>
+
+                            <span class="badge {{ $site->relief_goods_qty < 10 ? 'bg-danger' : 'bg-primary' }} text-white mb-1">
+                                <i class="fas fa-box-open me-1"></i> {{ $site->relief_goods_qty }} Relief
+                            </span><br>
+
+                            <span class="badge {{ $site->beddings_qty < 10 ? 'bg-danger' : 'bg-primary' }} text-white">
+                                <i class="fas fa-bed me-1"></i> {{ $site->beddings_qty }} Beddings
                             </span>
                         </td>
                         <td>

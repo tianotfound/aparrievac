@@ -25,6 +25,10 @@ return new class extends Migration
             $table->string('status');
             $table->string('head');
             $table->string('contact');
+            $table->integer('medicine_qty');
+            $table->integer('toiletries_qty');
+            $table->integer('relief_goods_qty');
+            $table->integer('beddings_qty');
             $table->timestamps();
         });
     }

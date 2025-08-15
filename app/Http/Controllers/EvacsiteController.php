@@ -47,6 +47,10 @@ class EvacsiteController extends Controller
             'waterstatus'  => 'required|string|in:available,unavailable',
             'head'         => 'required|string|max:255',
             'contact'      => 'required|string|max:20',
+            'medicine_qty'      => 'required|integer|min:1',
+            'toiletries_qty'      => 'required|integer|min:1',
+            'relief_goods_qty'      => 'required|integer|min:1',
+            'beddings_qty'      => 'required|integer|min:1',
             'lat'          => 'required|numeric|between:-90,90',
             'lang'         => 'required|numeric|between:-180,180',
         ]);
@@ -92,6 +96,10 @@ class EvacsiteController extends Controller
             'waterstatus'  => 'required|string|in:available,unavailable',
             'head'         => 'required|string|max:255',
             'contact'      => 'required|string|max:20',
+            'medicine_qty'      => 'required|integer|min:1',
+            'toiletries_qty'      => 'required|integer|min:1',
+            'relief_goods_qty'      => 'required|integer|min:1',
+            'beddings_qty'      => 'required|integer|min:1',
             'lat'          => 'required|numeric|between:-90,90',
             'lang'         => 'required|numeric|between:-180,180',
         ]);

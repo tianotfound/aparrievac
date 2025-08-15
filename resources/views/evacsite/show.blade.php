@@ -1,159 +1,182 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="container py-4">
 
-<div class="container">
-    <div class="row justify-content-center align-items-center">
-        <div class="col-md-6 mb-3">
-            <div class="card">
-                <div class="card-body">
-                    <h6 class="mb-1">
-                        <i class="fas fa-map-marker-alt text-danger"></i> {{ $evacsites->sitename }} 
-                        <span class="float-end">
-                            @php
-                                $statusClass = [
-                                    'operational' => 'success',
-                                    'under_maintenance' => 'warning',
-                                    'closed' => 'danger'
-                                ][$evacsites->status] ?? 'secondary';
-                            @endphp
-                            <span class="badge bg-{{ $statusClass }}">
-                                {{ Str::title(str_replace('_', ' ', $evacsites->status)) }}
-                            </span>
-                        </span>
-                    </h6>
-                    <small class="text-muted ">{{ $evacsites->address }}</small> |
-                    <small class="text-muted ">{{ $evacsites->type }}</small>
-                    <hr>
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-                            <small>Head: <strong>{{ $evacsites->head }}</strong></small>
-                        </div>
-                        <div class="col-md-6">
-                            <small>Contact: <strong>{{ $evacsites->contact }}</strong></small>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="container">
-                        <div class="row justify-content-between align-items-center text-center">
-                            <div class="col-md-3">
-                                <small class="text-muted">Capacity</small>
-                                <h4><strong>{{ ($evacsites->capacity) }}</strong></h4>
-                            </div>
-                            <div class="col-md-3">
-                                <small class="text-muted">No. of Rooms</small>
-                                <h4><strong>{{ ($evacsites->room) }}</strong></h4>
-                            </div>
-                            <div class="col-md-3">
-                                <small class="text-muted">Power Status</small>
-                                <h5>
-                                    <span class="badge bg-{{ $evacsites->powerstatus === 'available' ? 'success' : 'danger' }}">
-                                        <i class="fas fa-bolt me-1"></i>{{ $evacsites->powerstatus }}
-                                    </span>
-                                </h5>
-                            </div> 
-                            <div class="col-md-3">
-                                <small class="text-muted">Water Status</small>
-                                <h5>
-                                    <span class="badge bg-{{ $evacsites->waterstatus === 'available' ? 'success' : 'danger' }}">
-                                        <i class="fas fa-tint me-1"></i>{{ $evacsites->waterstatus }}
-                                    </span>
-                                </h5>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    @php
-                        $capacity = $evacsites->capacity ?? 1; // prevent division by zero
-                        $occupants = $evacsites->occupants ?? 0;
-                        $occupancy = min(100, round(($occupants / $capacity) * 100)); // capped at 100%
-                        
-                        $barColor = 'bg-success';
-                        if ($occupancy >= 80) $barColor = 'bg-danger';
-                        elseif ($occupancy >= 50) $barColor = 'bg-warning';
-                    @endphp
-                    <div class="text-center">
-                        <small class="text-muted d-block mb-1">Occupancy: {{ $occupants }} / {{ $capacity }}</small>
-                        
-                        <div class="progress" style="height: 15px;">
-                            <div class="progress-bar {{ $barColor }}" role="progressbar"
-                                style="width: {{ $occupancy }}%;" aria-valuenow="{{ $occupancy }}" aria-valuemin="0" aria-valuemax="100">
-                                {{ $occupancy }}%
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container mb-2">
-                    <a href="{{ route('evacsites.show', $evacsites->sitename) }}" class="btn btn-primary btn-sm text-white d-flex text-decoration-none justify-content-center align-items-center">
-                        <i class="fas fa-info-circle me-1"></i> Details
-                    </a>
-                </div>  
+    {{-- HEADER --}}
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-4">
+        <div>
+            <h3 class="mb-1 fw-bold">
+                <i class="fa-solid fa-location-dot text-danger me-2"></i>{{ $evacsites->sitename }}
+            </h3>
+            <div class="text-muted small">
+                <i class="fa-solid fa-map me-1"></i>{{ $evacsites->address }} |
+                <i class="fa-solid fa-building me-1"></i>{{ Str::title(str_replace('_', ' ', $evacsites->type)) }}
             </div>
         </div>
-        <div class="col-md-6">
-            <div id="evacMap" style="height: 400px; border-radius: 5px;"></div>
+        @php
+            $statusClass = [
+                'operational' => 'success',
+                'under_maintenance' => 'warning',
+                'closed' => 'danger'
+            ][$evacsites->status] ?? 'secondary';
+        @endphp
+        <span class="badge bg-{{ $statusClass }} px-3 py-2 fs-6">
+            {{ Str::title(str_replace('_', ' ', $evacsites->status)) }}
+        </span>
+    </div>
+
+    <div class="row g-4">
+        {{-- LEFT COLUMN --}}
+        <div class="col-lg-6">
+
+            {{-- Site Management --}}
+            <section>
+                <h6 class="text-primary fw-bold mb-3">
+                    <i class="fa-solid fa-user-tie me-2"></i>Site Management
+                </h6>
+                <div class="row g-3">
+                    <div class="col-6">
+                        <small class="text-muted d-block"><i class="fa-solid fa-user me-1"></i>Head</small>
+                        <span class="fw-semibold">{{ $evacsites->head }}</span>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-muted d-block"><i class="fa-solid fa-phone me-1"></i>Contact</small>
+                        <span class="fw-semibold">{{ $evacsites->contact }}</span>
+                    </div>
+                </div>
+            </section>
+
+            <hr>
+
+            {{-- Facilities --}}
+            <section>
+                <h6 class="text-primary fw-bold mb-3">
+                    <i class="fa-solid fa-building-user me-2"></i>Facilities
+                </h6>
+                <div class="row text-center">
+                    <div class="col-3">
+                        <small class="text-muted d-block"><i class="fa-solid fa-users me-1"></i>Capacity</small>
+                        <h5 class="fw-bold">{{ $evacsites->capacity }}</h5>
+                    </div>
+                    <div class="col-3">
+                        <small class="text-muted d-block"><i class="fa-solid fa-door-open me-1"></i>Rooms</small>
+                        <h5 class="fw-bold">{{ $evacsites->room }}</h5>
+                    </div>
+                    <div class="col-3">
+                        <small class="text-muted d-block"><i class="fa-solid fa-bolt me-1 text-warning"></i>Power</small>
+                        <span class="badge bg-{{ $evacsites->powerstatus === 'available' ? 'success' : 'danger' }}">
+                            {{ $evacsites->powerstatus }}
+                        </span>
+                    </div>
+                    <div class="col-3">
+                        <small class="text-muted d-block"><i class="fa-solid fa-droplet me-1 text-info"></i>Water</small>
+                        <span class="badge bg-{{ $evacsites->waterstatus === 'available' ? 'success' : 'danger' }}">
+                            {{ $evacsites->waterstatus }}
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+            <hr>
+
+            {{-- Occupancy --}}
+            @php
+                $capacity = $evacsites->capacity ?? 1;
+                $occupants = $evacsites->occupants ?? 0;
+                $occupancy = min(100, round(($occupants / $capacity) * 100));
+                $barColor = 'bg-success';
+                if ($occupancy >= 80) $barColor = 'bg-danger';
+                elseif ($occupancy >= 50) $barColor = 'bg-warning';
+            @endphp
+            <section>
+                <h6 class="text-primary fw-bold mb-3">
+                    <i class="fa-solid fa-person-shelter me-2"></i>Occupancy
+                </h6>
+                <small class="text-muted">Current: {{ $occupants }} / {{ $capacity }}</small>
+                <div class="progress mt-2" style="height: 18px;">
+                    <div class="progress-bar {{ $barColor }}" style="width: {{ $occupancy }}%;">
+                        {{ $occupancy }}%
+                    </div>
+                </div>
+            </section>
+
+            <hr>
+
+            {{-- Resources --}}
+            <section>
+                <h6 class="text-primary fw-bold mb-3">
+                    <i class="fa-solid fa-boxes-stacked me-2"></i>Resources
+                </h6>
+                <div class="row text-center gy-3">
+                    <div class="col-3">
+                        <i class="fa-solid fa-briefcase-medical fa-2x text-danger"></i>
+                        <div class="fw-bold">{{ $evacsites->medicine_qty }}</div>
+                        <small class="text-muted">Medicine</small>
+                    </div>
+                    <div class="col-3">
+                        <i class="fa-solid fa-pump-soap fa-2x text-primary"></i>
+                        <div class="fw-bold">{{ $evacsites->toiletries_qty }}</div>
+                        <small class="text-muted">Toiletries</small>
+                    </div>
+                    <div class="col-3">
+                        <i class="fa-solid fa-box-open fa-2x text-warning"></i>
+                        <div class="fw-bold">{{ $evacsites->relief_goods_qty }}</div>
+                        <small class="text-muted">Relief Goods</small>
+                    </div>
+                    <div class="col-3">
+                        <i class="fa-solid fa-bed fa-2x text-success"></i>
+                        <div class="fw-bold">{{ $evacsites->beddings_qty }}</div>
+                        <small class="text-muted">Beddings</small>
+                    </div>
+                </div>
+            </section>
         </div>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Get the coordinates from your model
-                const lat = {{ $evacsites->lat }};
-                const lng = {{ $evacsites->lang }};
-                const status = "{{ $evacsites->status }}";
-                const sitename = "{{ $evacsites->sitename }}";
-                
-                // Determine color based on status
-                let color;
-                switch(status) {
-                    case 'operational':
-                        color = '#28a745'; // green
-                        break;
-                    case 'under_maintenance':
-                        color = '#ffc107'; // yellow
-                        break;
-                    case 'closed':
-                        color = '#dc3545'; // red
-                        break;
-                    default:
-                        color = '#6c757d'; // gray
-                }
-                
-                // Initialize the map
-                const map = L.map('evacMap').setView([lat, lng], 15);
-                
-                // Add tile layer (OpenStreetMap)
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                }).addTo(map);
-                
-                // Create the circle with white stroke
-                const circle = L.circle([lat, lng], {
-                    color: 'white', // stroke color
-                    weight: 2,      // stroke width
-                    fillColor: color,
-                    fillOpacity: 0.7,
-                    radius: 100    // 100 meters radius - adjust as needed
-                }).addTo(map).bindPopup(`<b>${sitename}</b><br>Status: ${status.replace('_', ' ')}`);
-                
-                // Add blinking effect
-                let isVisible = true;
-                setInterval(() => {
-                    isVisible = !isVisible;
-                    if (isVisible) {
-                        circle.setStyle({
-                            fillOpacity: 0.7,
-                            opacity: 1
-                        });
-                    } else {
-                        circle.setStyle({
-                            fillOpacity: 0.2,
-                            opacity: 0.5
-                        });
-                    }
-                }, 1000); // Blink every 1 second
-            });
-        </script>
+        {{-- RIGHT COLUMN --}}
+        <div class="col-lg-6">
+            <div id="evacMap" style="height: 500px; border-radius: 10px; border: 1px solid #dee2e6;"></div>
+        </div>
     </div>
 </div>
 
+{{-- MAP SCRIPT --}}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const lat = {{ $evacsites->lat }};
+    const lng = {{ $evacsites->lang }};
+    const status = "{{ $evacsites->status }}";
+    const sitename = "{{ $evacsites->sitename }}";
+    
+    let color;
+    switch(status) {
+        case 'operational': color = '#28a745'; break;
+        case 'under_maintenance': color = '#ffc107'; break;
+        case 'closed': color = '#dc3545'; break;
+        default: color = '#6c757d';
+    }
+    
+    const map = L.map('evacMap').setView([lat, lng], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+    
+    const circle = L.circle([lat, lng], {
+        color: 'white',
+        weight: 2,
+        fillColor: color,
+        fillOpacity: 0.7,
+        radius: 100
+    }).addTo(map).bindPopup(`<b>${sitename}</b><br>Status: ${status.replace('_', ' ')}`);
+    
+    let isVisible = true;
+    setInterval(() => {
+        isVisible = !isVisible;
+        circle.setStyle({
+            fillOpacity: isVisible ? 0.7 : 0.2,
+            opacity: isVisible ? 1 : 0.5
+        });
+    }, 1000);
+});
+</script>
 @endsection

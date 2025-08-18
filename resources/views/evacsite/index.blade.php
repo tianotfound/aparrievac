@@ -130,43 +130,51 @@
                                             <i class="fas fa-briefcase-medical text-danger me-1"></i> Medicine
                                         </small>
                                         <h5>
-                                            <span class="badge {{ $item->medicine_qty < 10 ? 'bg-danger' : 'bg-primary' }}">
+                                            <span class="badge 
+                                                {{ $item->medicine_qty < 10 ? 'bg-danger' : ($item->medicine_qty <= 15 ? 'bg-warning' : 'bg-primary') }}">
                                                 {{ $item->medicine_qty }}
                                             </span>
                                         </h5>
                                     </div>
+
                                     <div class="col-md-3">
                                         <small class="text-muted">
                                             <i class="fas fa-soap text-primary me-1"></i> Toiletries
                                         </small>
                                         <h5>
-                                            <span class="badge {{ $item->toiletries_qty < 10 ? 'bg-danger' : 'bg-primary' }}">
+                                            <span class="badge 
+                                                {{ $item->toiletries_qty < 10 ? 'bg-danger' : ($item->toiletries_qty <= 15 ? 'bg-warning' : 'bg-primary') }}">
                                                 {{ $item->toiletries_qty }}
                                             </span>
                                         </h5>
                                     </div>
+
                                     <div class="col-md-3">
                                         <small class="text-muted">
                                             <i class="fas fa-box-open text-warning me-1"></i> Relief Goods
                                         </small>
                                         <h5>
-                                            <span class="badge {{ $item->relief_goods_qty < 10 ? 'bg-danger' : 'bg-primary' }}">
+                                            <span class="badge 
+                                                {{ $item->relief_goods_qty < 10 ? 'bg-danger' : ($item->relief_goods_qty <= 15 ? 'bg-warning' : 'bg-primary') }}">
                                                 {{ $item->relief_goods_qty }}
                                             </span>
                                         </h5>
                                     </div>
+
                                     <div class="col-md-3">
                                         <small class="text-muted">
                                             <i class="fas fa-bed text-success me-1"></i> Beddings
                                         </small>
                                         <h5>
-                                            <span class="badge {{ $item->beddings_qty < 10 ? 'bg-danger' : 'bg-primary' }}">
+                                            <span class="badge 
+                                                {{ $item->beddings_qty < 10 ? 'bg-danger' : ($item->beddings_qty <= 15 ? 'bg-warning' : 'bg-primary') }}">
                                                 {{ $item->beddings_qty }}
                                             </span>
                                         </h5>
                                     </div>
                                 </div>
                             </div>
+
                             <hr>
                             @php
                                 $capacity = $item->capacity ?? 1; // prevent division by zero

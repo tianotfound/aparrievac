@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Evacuee;
+use App\Models\Evacsite;
 
 class EvacueeController extends Controller
 {
@@ -65,7 +66,9 @@ class EvacueeController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $evacuee = Evacuee::with('evacsites')->findOrFail($id);
+        $evacsites = Evacsite::all(); // fetch list for dropdown
+        return view('evacuee.edit', compact('evacuee', 'evacsites'));
     }
 
     /**
@@ -73,7 +76,26 @@ class EvacueeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+        'evacsites_id' => 'required|exists:evacsites,id',
+        'last_name' => 'required|string|max:100',
+        'first_name' => 'required|string|max:100',
+        'middle_name' => 'nullable|string|max:100',
+        'contact_number' => 'required|string|max:20',
+        'age' => 'required|integer|min:0|max:120',
+        'gender' => 'required|in:Male,Female,Other',
+        'barangay' => 'required|string|max:100',
+        'address' => 'required|string|max:255',
+        'family_count' => 'required|integer|min:1',
+        'medical_condition' => 'nullable|string',
+        'remarks' => 'nullable|string',
+        ]);
+
+        $evacuee = Evacuee::findOrFail($id);  
+        $evacuee->update($validated);
+
+        return redirect()->route('evacuee.index')
+        ->with('success', 'Evacuee added successfully.');
     }
 
     /**

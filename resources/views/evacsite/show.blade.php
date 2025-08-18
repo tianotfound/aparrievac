@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container py-4">
+<div class="container py-3">
 
     {{-- HEADER --}}
-    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-4">
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
         <div>
-            <h3 class="mb-1 fw-bold">
+            <h5 class="mb-1 fw-bold">
                 <i class="fa-solid fa-location-dot text-danger me-2"></i>{{ $evacsites->sitename }}
-            </h3>
+            </h5>
             <div class="text-muted small">
                 <i class="fa-solid fa-map me-1"></i>{{ $evacsites->address }} |
                 <i class="fa-solid fa-building me-1"></i>{{ Str::title(str_replace('_', ' ', $evacsites->type)) }}
@@ -21,64 +21,60 @@
                 'closed' => 'danger'
             ][$evacsites->status] ?? 'secondary';
         @endphp
-        <span class="badge bg-{{ $statusClass }} px-3 py-2 fs-6">
+        <span class="badge bg-{{ $statusClass }} px-3 py-2">
             {{ Str::title(str_replace('_', ' ', $evacsites->status)) }}
         </span>
     </div>
 
-    <div class="row g-4">
+    <div class="row g-3">
         {{-- LEFT COLUMN --}}
-        <div class="col-lg-6">
+        <div class="col-lg-6 d-flex flex-column gap-3">
 
             {{-- Site Management --}}
             <section>
-                <h6 class="text-primary fw-bold mb-3">
-                    <i class="fa-solid fa-user-tie me-2"></i>Site Management
+                <h6 class="text-primary fw-bold mb-2">
+                    <i class="fa-solid fa-user-tie me-2"></i>Management
                 </h6>
-                <div class="row g-3">
+                <div class="row small">
                     <div class="col-6">
-                        <small class="text-muted d-block"><i class="fa-solid fa-user me-1"></i>Head</small>
+                        <span class="text-muted"><i class="fa-solid fa-user me-1"></i>Head:</span>
                         <span class="fw-semibold">{{ $evacsites->head }}</span>
                     </div>
                     <div class="col-6">
-                        <small class="text-muted d-block"><i class="fa-solid fa-phone me-1"></i>Contact</small>
+                        <span class="text-muted"><i class="fa-solid fa-phone me-1"></i>Contact:</span>
                         <span class="fw-semibold">{{ $evacsites->contact }}</span>
                     </div>
                 </div>
             </section>
 
-            <hr>
-
             {{-- Facilities --}}
             <section>
-                <h6 class="text-primary fw-bold mb-3">
+                <h6 class="text-primary fw-bold mb-2">
                     <i class="fa-solid fa-building-user me-2"></i>Facilities
                 </h6>
-                <div class="row text-center">
+                <div class="row text-center small">
                     <div class="col-3">
-                        <small class="text-muted d-block"><i class="fa-solid fa-users me-1"></i>Capacity</small>
-                        <h5 class="fw-bold">{{ $evacsites->capacity }}</h5>
+                        <div class="fw-bold fs-6">{{ $evacsites->capacity }}</div>
+                        <span class="text-muted">Capacity</span>
                     </div>
                     <div class="col-3">
-                        <small class="text-muted d-block"><i class="fa-solid fa-door-open me-1"></i>Rooms</small>
-                        <h5 class="fw-bold">{{ $evacsites->room }}</h5>
+                        <div class="fw-bold fs-6">{{ $evacsites->room }}</div>
+                        <span class="text-muted">Rooms</span>
                     </div>
                     <div class="col-3">
-                        <small class="text-muted d-block"><i class="fa-solid fa-bolt me-1 text-warning"></i>Power</small>
                         <span class="badge bg-{{ $evacsites->powerstatus === 'available' ? 'success' : 'danger' }}">
                             {{ $evacsites->powerstatus }}
                         </span>
+                        <div class="text-muted">Power</div>
                     </div>
                     <div class="col-3">
-                        <small class="text-muted d-block"><i class="fa-solid fa-droplet me-1 text-info"></i>Water</small>
                         <span class="badge bg-{{ $evacsites->waterstatus === 'available' ? 'success' : 'danger' }}">
                             {{ $evacsites->waterstatus }}
                         </span>
+                        <div class="text-muted">Water</div>
                     </div>
                 </div>
             </section>
-
-            <hr>
 
             {{-- Occupancy --}}
             @php
@@ -90,42 +86,43 @@
                 elseif ($occupancy >= 50) $barColor = 'bg-warning';
             @endphp
             <section>
-                <h6 class="text-primary fw-bold mb-3">
+                <h6 class="text-primary fw-bold mb-2">
                     <i class="fa-solid fa-person-shelter me-2"></i>Occupancy
                 </h6>
-                <small class="text-muted">Current: {{ $occupants }} / {{ $capacity }}</small>
-                <div class="progress mt-2" style="height: 18px;">
+                <div class="d-flex justify-content-between small text-muted">
+                    <span>Current</span>
+                    <span>{{ $occupants }} / {{ $capacity }}</span>
+                </div>
+                <div class="progress mt-1" style="height: 16px;">
                     <div class="progress-bar {{ $barColor }}" style="width: {{ $occupancy }}%;">
                         {{ $occupancy }}%
                     </div>
                 </div>
             </section>
 
-            <hr>
-
             {{-- Resources --}}
             <section>
-                <h6 class="text-primary fw-bold mb-3">
+                <h6 class="text-primary fw-bold mb-2">
                     <i class="fa-solid fa-boxes-stacked me-2"></i>Resources
                 </h6>
-                <div class="row text-center gy-3">
+                <div class="row text-center g-2">
                     <div class="col-3">
-                        <i class="fa-solid fa-briefcase-medical fa-2x text-danger"></i>
+                        <i class="fa-solid fa-briefcase-medical text-danger"></i>
                         <div class="fw-bold">{{ $evacsites->medicine_qty }}</div>
                         <small class="text-muted">Medicine</small>
                     </div>
                     <div class="col-3">
-                        <i class="fa-solid fa-pump-soap fa-2x text-primary"></i>
+                        <i class="fa-solid fa-pump-soap text-primary"></i>
                         <div class="fw-bold">{{ $evacsites->toiletries_qty }}</div>
                         <small class="text-muted">Toiletries</small>
                     </div>
                     <div class="col-3">
-                        <i class="fa-solid fa-box-open fa-2x text-warning"></i>
+                        <i class="fa-solid fa-box-open text-warning"></i>
                         <div class="fw-bold">{{ $evacsites->relief_goods_qty }}</div>
                         <small class="text-muted">Relief Goods</small>
                     </div>
                     <div class="col-3">
-                        <i class="fa-solid fa-bed fa-2x text-success"></i>
+                        <i class="fa-solid fa-bed text-success"></i>
                         <div class="fw-bold">{{ $evacsites->beddings_qty }}</div>
                         <small class="text-muted">Beddings</small>
                     </div>
@@ -135,7 +132,7 @@
 
         {{-- RIGHT COLUMN --}}
         <div class="col-lg-6">
-            <div id="evacMap" style="height: 500px; border-radius: 10px; border: 1px solid #dee2e6;"></div>
+            <div id="evacMap" class="w-100 h-100" style="min-height: 450px; border-radius: 8px; border: 1px solid #dee2e6;"></div>
         </div>
     </div>
 </div>

@@ -104,7 +104,7 @@ class EvacsiteController extends Controller
             'lang'         => 'required|numeric|between:-180,180',
         ]);
 
-        $evacSite = EvacSite::findOrFail($id);
+        $evacSite = EvacSite::findOrFail($id); 
         $evacSite->update($validated);
 
         return redirect()->route('evacsites.index')

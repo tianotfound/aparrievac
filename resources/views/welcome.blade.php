@@ -48,7 +48,7 @@
                                     <span class="text-danger">i</span>Bakwit
                                 </span>
                             </div>
-                            <button class="btn btn-primary btn-lg px-4">Evacuate</button>
+                            <a href="{{ route('evacuate.index') }}"><button class="btn btn-primary btn-md px-4">Evacuate</button></a>
                         </h1>
                     </div>
                     <div class="col-md-12 mb-3 d-flex align-items-center">

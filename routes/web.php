@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PublicEvacuateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,12 @@ Route::resource('evacuee', App\Http\Controllers\EvacueeController::class);
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('user.profile');
 Route::post('/profile', [App\Http\Controllers\ProfileController::class, 'store'])->name('user.profile.store');
 
+// Hotlines
+Route::resource('hotlines', App\Http\Controllers\HotlineController::class);
+
 // Public View
 Route::resource('evacuate', App\Http\Controllers\PublicEvacuateController::class);
+Route::get('/evacsitess', [PublicEvacuateController::class, 'publicEvacSites'])->name('public.evacsites');
+
+
 Route::resource('contact', App\Http\Controllers\ContactCtrl::class);

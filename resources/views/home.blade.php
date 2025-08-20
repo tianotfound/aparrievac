@@ -19,6 +19,17 @@
         });
     </script>
 
+    <!-- Page Header -->
+    <div class="container mb-3">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 text-gray-800">
+                    <i class="fa-solid fa-gauge me-2"></i><b>Dashboard</b>
+                </h5>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="row justify-content-center align-item center">  
             <div class="col-md-9 mb-3">

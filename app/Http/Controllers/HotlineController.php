@@ -3,36 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Evacsite;
-use App\Models\Evacuee;
 
-class PublicEvacuateController extends Controller
+class HotlineController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
-    {   
-        $evacsites = \App\Models\Evacsite::all();
-        return view('publicview.evacuate', compact('evacsites'));
-    }
-
-    public function publicEvacSites(Request $request)
+    public function index()
     {
-        $query = Evacsite::query();
-
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('sitename', 'like', "%{$search}%")
-                  ->orWhere('address', 'like', "%{$search}%")
-                  ->orWhere('head', 'like', "%{$search}%");
-            });
-        }
-
-        $evacsites = $query->get();
-
-        return view('publicview.evacuate', compact('evacsites'));
+        return view('hotlines.index');  
     }
 
     /**

@@ -75,6 +75,9 @@
                             <a class="nav-link" href="{{ route('evacuee.index') }}">Evacuees Data</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('hotlines.index') }}">Hotline Number</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('users.index') }}">System Management</a>
                         </li>
                     </ul>
